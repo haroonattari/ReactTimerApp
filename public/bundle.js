@@ -25584,11 +25584,34 @@
 	  displayName: 'Countdown',
 
 	  getInitialState: function getInitialState() {
-	    return { count: 0 };
+	    return {
+	      count: 0,
+	      countdownStatus: 'stopped'
+	    };
+	  },
+	  componentDidUpdate: function componentDidUpdate(prevProps, prevState) {
+	    if (this.state.countdownStatus !== prevState.countdownStatus) {
+	      switch (this.state.countdownStatus) {
+	        case 'started':
+	          this.startTimer();
+	          break;
+	      }
+	    }
+	  },
+	  startTimer: function startTimer() {
+	    var _this = this;
+
+	    this.timer = setInterval(function () {
+	      var newCount = _this.state.count - 1;
+	      _this.setState({
+	        count: newCount >= 0 ? newCount : 0
+	      });
+	    }, 1000);
 	  },
 	  handleSetCountdown: function handleSetCountdown(seconds) {
 	    this.setState({
-	      count: seconds
+	      count: seconds,
+	      countdownStatus: 'started'
 	    });
 	  },
 	  render: function render() {
