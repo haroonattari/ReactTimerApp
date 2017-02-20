@@ -1,16 +1,17 @@
 var React = require('react');
 var Clock = require('Clock');
-var CountdownForm = require('CountdownForm');
 var Controls = require('Controls');
 
-var Countdown = React.createClass({
+var Countup = React.createClass({
   getInitialState: function () {
+    console.log('Countup getInitialState');
     return {
       count: 0,
-      counterStatus: 'stopped'
+      counterStatus: 'paused'
     };
   },
   componentDidUpdate: function (prevProps, prevState) {
+    console.log('Countup componentDidUpdate');
     if (this.state.counterStatus !== prevState.counterStatus) {
       switch (this.state.counterStatus) {
         case 'started':
@@ -26,23 +27,19 @@ var Countdown = React.createClass({
     }
   },
   componentWillUnmount: function () {
+    console.log('Countup componentWillUnmount');
     clearInterval(this.timer);
     this.timer = undefined;
   },
   startTimer: function () {
+    console.log('Countup startTimer');
     this.timer = setInterval(() => {
-      var newCount = this.state.count -1;
       this.setState({
-        count: newCount >= 0 ? newCount : 0
+        count: this.state.count + 1
       });
-
-      if (newCount === 0) {
-        this.setState({counterStatus: 'stopped'});
-      }
-
     }, 1000);
   },
-  handleSetCountdown: function (seconds) {
+  handleSetCountup: function (seconds) {
     this.setState({
       count: seconds,
       counterStatus: 'started'
@@ -53,21 +50,17 @@ var Countdown = React.createClass({
   },
   render: function() {
     var {count, counterStatus} = this.state;
-    var renderControlArea = () => {
-      if (counterStatus !== 'stopped') {
-        return <Controls counterStatus={counterStatus} onStatusChange={this.handleStatusChange}/>
-      } else {
-        return <CountdownForm onSetCountdown={this.handleSetCountdown}/>
-      }
-    }
+    console.log('Countup render ');
+    console.log({count});
+    console.log({counterStatus});
     return (
       <div>
-        <h1 className="page-title">Countdown App</h1>
+        <h1 className="page-title">Countup App</h1>
         <Clock totalSeconds={count}/>
-        {renderControlArea()}
+        <Controls counterStatus={counterStatus} onStatusChange={this.handleStatusChange}/>
       </div>
     )
   }
 });
 
-module.exports = Countdown;
+module.exports = Countup;
