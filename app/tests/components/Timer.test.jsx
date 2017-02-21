@@ -4,17 +4,17 @@ var expect = require('expect');
 var $ = require('jQuery');
 var TestUtils = require('react-addons-test-utils');
 
-var Countup = require('Countup');
+var Timer = require('Timer');
 
-describe('Countup', () => {
+describe('Timer', () => {
   it('should exist', () => {
-    expect(Countup).toExist();
+    expect(Timer).toExist();
   });
 
-  describe('handleSetCountup', () => {
+  describe('handleSetTimer', () => {
     it('should set state to started and countup', (done) => {
-      var countup = TestUtils.renderIntoDocument(<Countup/>);
-      countup.handleSetCountup(10);
+      var countup = TestUtils.renderIntoDocument(<Timer/>);
+      countup.handleSetTimer(10);
 
       expect(countup.state.count).toBe(10);
       expect(countup.state.counterStatus).toBe('started');
@@ -26,8 +26,8 @@ describe('Countup', () => {
     });
 
     it('should never set count less than zero', (done) => {
-      var countup = TestUtils.renderIntoDocument(<Countup/>);
-      countup.handleSetCountup(1);
+      var countup = TestUtils.renderIntoDocument(<Timer/>);
+      countup.handleSetTimer(1);
 
       setTimeout(() => {
         expect(countup.state.count).toBe(0);
@@ -36,8 +36,8 @@ describe('Countup', () => {
     });
 
     it('should pause countup on paused status', () => {
-      var countup = TestUtils.renderIntoDocument(<Countup />);
-      countup.handleSetCountup(3);
+      var countup = TestUtils.renderIntoDocument(<Timer />);
+      countup.handleSetTimer(3);
       countup.handleStatusChange('paused');
 
       setTimeout(() => {
@@ -48,8 +48,8 @@ describe('Countup', () => {
     });
 
     it('should reset count on stopped', () => {
-      var countup = TestUtils.renderIntoDocument(<Countup />);
-      countup.handleSetCountup(3);
+      var countup = TestUtils.renderIntoDocument(<Timer />);
+      countup.handleSetTimer(3);
       countup.handleStatusChange('stopped');
 
       setTimeout(() => {
